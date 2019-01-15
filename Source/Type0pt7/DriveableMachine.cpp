@@ -28,6 +28,5 @@ void ADriveableMachine::Tick(float DeltaTime)
 void ADriveableMachine::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
