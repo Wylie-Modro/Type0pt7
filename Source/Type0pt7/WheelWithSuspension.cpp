@@ -65,7 +65,7 @@ void AWheelWithSuspension::AddDrivingForce(float ForceMagnitude)
 
 void AWheelWithSuspension::ApplyForce()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Force Being Applied This Frame: %f"), TotalForceMagnitudeThisFrame);
+//	UE_LOG(LogTemp, Warning, TEXT("Force Being Applied This Frame: %f"), TotalForceMagnitudeThisFrame);
 	Wheel->AddForce(Axel->GetForwardVector() * TotalForceMagnitudeThisFrame);
 }
 

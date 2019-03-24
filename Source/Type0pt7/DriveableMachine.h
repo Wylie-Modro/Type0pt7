@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "DriveableMachine.generated.h"
 
+class ALandManager;
+
 UCLASS()
 class TYPE0PT7_API ADriveableMachine : public APawn
 {
@@ -26,4 +28,18 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	void StartUpHoe();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hoeing")
+	int HoeingTileWidth = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hoeing")
+	int HoeingTileLength = 7;
+
+	UPROPERTY(EditAnywhere, Category = "Hoeing")
+	ALandManager* LandManager;
+
+private:
+	void HoeWhileMoving();
 };
