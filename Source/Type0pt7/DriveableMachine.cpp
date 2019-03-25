@@ -48,7 +48,8 @@ void ADriveableMachine::StartUpHoe()
 //+ (j *100.f) + 100.f *0.35 * j
 			float CosCorrection = FMath::Cos(-1.f*MachineRotation.Yaw*(pi/180.f));
 			float SinCorrection = FMath::Sin(-1.f*MachineRotation.Yaw*(pi/180.f));
-			FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * SinCorrection) , MachineLocation.Y + (j *100.f * CosCorrection), 5.f);
+			//float OffsetDirection = (FMath::Abs(MachineRotation.Yaw) > 90 ? + 1.f : -1.f);
+			FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * SinCorrection) - (((HoeingTileWidth - 1.f) / 2.f) * 110.f*SinCorrection) , MachineLocation.Y + (j *100.f * CosCorrection) - (((HoeingTileWidth - 1.f) / 2.f) * 110.f*CosCorrection), 5.f);
 			//FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * FMath::Sin(-2.f*MachineRotation.Yaw * (pi/180.f))) , MachineLocation.Y + (j *100.f) - 100.f, 5.f);
 		//	FVector ModifiedLocation = FVector(MachineLocation.X - (i * 100.f) + 300.f, MachineLocation.Y + (j *100.f) - 100.f, 5.f);
 			
