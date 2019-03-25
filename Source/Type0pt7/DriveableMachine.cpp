@@ -40,36 +40,29 @@ void ADriveableMachine::StartUpHoe()
 		for (int j = 0; j < HoeingTileWidth; j++)
 		{
 			const float pi = 3.1415926535f;
-//			float YjCorrection = j*(FMath::Cos(-1.f*MachineRotation.Yaw*(pi/180.f)))* 100.f; 
-//			float XjCorrection = j*(FMath::Sin(-1.f*(MachineRotation.Yaw *(pi/180.f))))* 100.f;
-
-			float CosPhi = (FMath::Cos(-1.f*MachineRotation.Yaw*(pi/180.f))); 
-			float SinPhi = (FMath::Sin(-1.f*(MachineRotation.Yaw *(pi/180.f))));
-//+ (j *100.f) + 100.f *0.35 * j
+			
 			float CosCorrection = FMath::Cos(-1.f*MachineRotation.Yaw*(pi/180.f));
 			float SinCorrection = FMath::Sin(-1.f*MachineRotation.Yaw*(pi/180.f));
 
-			float RowOffsetX = (((HoeingTileWidth - 1.f) / 2.f) * 110.f*SinCorrection);
-			float RowOffsetY = (((HoeingTileWidth - 1.f) / 2.f) * 110.f*CosCorrection);
+			float RowAdjustmentForAngle_XComp = (j * 100.f * SinCorrection);
+			float RowAdjustmentForAngle_YComp = (j * 100.f * CosCorrection);
 
-			float ColumnX = (i * 100.f *CosCorrection);
-			float ColumnY = (i * 100.f*SinCorrection);
+			float InitialRowOffset_XComp = ( -1.f * ((HoeingTileWidth - 1.f) / 2.f) * 110.f*SinCorrection);
+			float InitialRowOffset_YComp = ( -1.f * ((HoeingTileWidth - 1.f) / 2.f) * 110.f*CosCorrection);
 
-			FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * SinCorrection) - RowOffsetX - ColumnX, MachineLocation.Y + (j *100.f * CosCorrection) - RowOffsetY + ColumnY, 5.f);
-			//FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * FMath::Sin(-2.f*MachineRotation.Yaw * (pi/180.f))) , MachineLocation.Y + (j *100.f) - 100.f, 5.f);
-		//	FVector ModifiedLocation = FVector(MachineLocation.X - (i * 100.f) + 300.f, MachineLocation.Y + (j *100.f) - 100.f, 5.f);
-			
+			float ColumnAdjustmentForAngle_XComp = (-1.f * i * 100.f *CosCorrection);
+			float ColumnAdjustmentForAngle_YComp = (i * 100.f*SinCorrection);
 
-			//FVector ModifiedLocation = FVector(MachineLocation.X*CosPhi - MachineLocation.Y*SinPhi, MachineLocation.X*SinPhi + MachineLocation.Y*CosPhi + (j *100.f) - (((HoeingTileWidth - 1.f) / 2.f) * 100.f) , 5.f);
-		//	FVector ModifiedLocation = FVector(MachineLocation.X + XjCorrection, MachineLocation.Y + (j *100.f) - YjCorrection/2.f - (((HoeingTileWidth - 1.f) / 2.f) * 100.f) , 5.f);
-		//	FVector ModifiedLocation = FVector(MachineLocation.X + 100.f *0.7 * j, MachineLocation.Y + (j *100.f) - 100.f*0.35f*j - (((HoeingTileWidth - 1.f) / 2.f) * 100.f) , 5.f);
-		//	FVector ModifiedLocation = FVector(MachineLocation.X + XjCorrection, MachineLocation.Y + YjCorrection +(j *100.f) - (((HoeingTileWidth - 1.f) / 2.f) * 100.f) , 5.f);
-		//	FVector ModifiedLocation = FVector(MachineLocation.X - ((HoeingTileLength - 1.f) / 2.f * 100.f) + i * 100.f, MachineLocation.Y - ((HoeingTileWidth - 1.f) / 2.f * 100.f) + j * 100.f, 5.f);
-			//UE_LOG(LogTemp, Error, TEXT("j: %i, XjCorrection = %f, YjCorrection = %f"), j, XjCorrection, YjCorrection);
-			UE_LOG(LogTemp, Error, TEXT("ModifiedLocation: X = %f, Y = %f, X = %f"), ModifiedLocation.X, ModifiedLocation.Y, ModifiedLocation.Z);
-			UE_LOG(LogTemp, Warning, TEXT("MachineRotation: Yaw: %f"),  MachineRotation.Yaw);
-			UE_LOG(LogTemp, Warning, TEXT("Y: CosCorrection %f"),  CosCorrection);
-			UE_LOG(LogTemp, Warning, TEXT("X: SinCorrection %f"),  SinCorrection);
+			float InitialColumnOffset_XComp = (((HoeingTileLength - 1.f) / 2.f) * 110.f*CosCorrection);
+			float InitialColumnOffset_YComp = ( -1.f * ((HoeingTileLength - 1.f) / 2.f) * 110.f*SinCorrection);
+
+			FVector ModifiedLocation = FVector(MachineLocation.X + RowAdjustmentForAngle_XComp + InitialRowOffset_XComp + ColumnAdjustmentForAngle_XComp + InitialColumnOffset_XComp, MachineLocation.Y + RowAdjustmentForAngle_YComp + InitialRowOffset_YComp + ColumnAdjustmentForAngle_YComp + InitialColumnOffset_YComp, 5.f);
+
+//			UE_LOG(LogTemp, Error, TEXT("ModifiedLocation: X = %f, Y = %f, X = %f"), ModifiedLocation.X, ModifiedLocation.Y, ModifiedLocation.Z);
+//			UE_LOG(LogTemp, Warning, TEXT("MachineRotation: Yaw: %f"),  MachineRotation.Yaw);
+//			UE_LOG(LogTemp, Warning, TEXT("Y: CosCorrection %f"),  CosCorrection);
+//			UE_LOG(LogTemp, Warning, TEXT("X: SinCorrection %f"),  SinCorrection);
+
 			if (!ensure(LandManager)) { return; }
 			if (!ensure(LandManager->HoedLandHISMC)) { return; }
 			LandManager->PlaceLandTile(ModifiedLocation, MachineRotation);

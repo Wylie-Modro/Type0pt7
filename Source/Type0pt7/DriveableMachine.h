@@ -35,7 +35,7 @@ public:
 	int HoeingTileWidth = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Hoeing")
-	int HoeingTileLength = 7;
+	int HoeingTileLength = 5;
 
 	UPROPERTY(EditAnywhere, Category = "Hoeing")
 	ALandManager* LandManager;
