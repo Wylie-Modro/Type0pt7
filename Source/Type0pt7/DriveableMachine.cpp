@@ -35,8 +35,8 @@ void ADriveableMachine::StartUpHoe()
 {
 	FVector MachineLocation = this->GetActorLocation();
 	FRotator MachineRotation = GetActorRotation();
-//	for (int i = 0; i < HoeingTileLength; i++)
-//	{
+	for (int i = 0; i < HoeingTileLength; i++)
+	{
 		for (int j = 0; j < HoeingTileWidth; j++)
 		{
 			const float pi = 3.1415926535f;
@@ -48,9 +48,14 @@ void ADriveableMachine::StartUpHoe()
 //+ (j *100.f) + 100.f *0.35 * j
 			float CosCorrection = FMath::Cos(-1.f*MachineRotation.Yaw*(pi/180.f));
 			float SinCorrection = FMath::Sin(-1.f*MachineRotation.Yaw*(pi/180.f));
+
 			float RowOffsetX = (((HoeingTileWidth - 1.f) / 2.f) * 110.f*SinCorrection);
 			float RowOffsetY = (((HoeingTileWidth - 1.f) / 2.f) * 110.f*CosCorrection);
-			FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * SinCorrection) - RowOffsetX , MachineLocation.Y + (j *100.f * CosCorrection) - RowOffsetY, 5.f);
+
+			float ColumnX = (i * 100.f *CosCorrection);
+			float ColumnY = (i * 100.f*SinCorrection);
+
+			FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * SinCorrection) - RowOffsetX - ColumnX, MachineLocation.Y + (j *100.f * CosCorrection) - RowOffsetY + ColumnY, 5.f);
 			//FVector ModifiedLocation = FVector(MachineLocation.X + (100.f*j * FMath::Sin(-2.f*MachineRotation.Yaw * (pi/180.f))) , MachineLocation.Y + (j *100.f) - 100.f, 5.f);
 		//	FVector ModifiedLocation = FVector(MachineLocation.X - (i * 100.f) + 300.f, MachineLocation.Y + (j *100.f) - 100.f, 5.f);
 			
@@ -69,7 +74,7 @@ void ADriveableMachine::StartUpHoe()
 			if (!ensure(LandManager->HoedLandHISMC)) { return; }
 			LandManager->PlaceLandTile(ModifiedLocation, MachineRotation);
 		}
-//	}
+	}
 }
 
 void ADriveableMachine::HoeWhileMoving()
