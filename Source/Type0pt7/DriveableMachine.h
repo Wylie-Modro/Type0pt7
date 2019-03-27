@@ -49,9 +49,29 @@ public:
 	bool GetHoeState();
 
 private:
-	void HoeWhileMoving();
+
+	const float MY_PI = 3.1415926535f;
+
+	const float DIRT_BLOCK_SIZE = 100.f;
+
+	const float ROW_GAP_FUDGE_FACTOR = 0.9f;
 
 	bool HoeState = false;
 
 	FVector PositionOfLastBlockPlaced;
+
+	float CosCorrection;
+	float SinCorrection;
+
+	float InitialRowOffset_XComp;
+	float InitialRowOffset_YComp;
+
+	float InitialColumnOffset_XComp;
+	float InitialColumnOffset_YComp;
+
+
+	void HoeWhileMoving();
+
+	void EvaluateBlockOffsets(FRotator MachineRotation);
+
 };
