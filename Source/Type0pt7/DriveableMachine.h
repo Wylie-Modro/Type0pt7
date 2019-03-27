@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void StartUpHoe();
 
+	UFUNCTION(BlueprintCallable)
+	void ShutdownHoe();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Hoeing")
 	int HoeingTileWidth = 3;
 
@@ -40,6 +43,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Hoeing")
 	ALandManager* LandManager;
 
+	void SetHoeState(bool val);
+
+	UFUNCTION(BlueprintCallable)
+	bool GetHoeState();
+
 private:
 	void HoeWhileMoving();
+
+	bool HoeState = false;
+
+	FVector PositionOfLastBlockPlaced;
 };
